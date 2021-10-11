@@ -1,6 +1,14 @@
-FROM python:3.9
+FROM python:3.8-buster
+
+ENV HOST=0.0.0.0
+ENV PORT=8000
+
 WORKDIR /code
-COPY ./requirements.txt /code/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-COPY . /code/app
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+COPY ./requirements.txt /code/
+
+RUN pip install --upgrade pip \
+ && pip install -r requirements.txt
+
+COPY . /code/
+
+CMD uvicorn app.main:app --host ${HOST} --port ${PORT}

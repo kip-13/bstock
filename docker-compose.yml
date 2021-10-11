@@ -9,3 +9,14 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
+  
+  webapp:
+    build:
+      dockerfile: ./docker/Dockerfile.api
+      context: ./
+    image: webapp
+    ports:
+      - "8000:8000"
+    env_file: ./.env
+    volumes:
+      - "./:/code"
