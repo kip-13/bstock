@@ -18,5 +18,10 @@ services:
     ports:
       - "8000:8000"
     env_file: ./.env
+    environment:
+      - WAIT_HOSTS=db:3306
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=2
+      - WAIT_HOST_CONNECT_TIMEOUT=30
     volumes:
       - "./:/code"

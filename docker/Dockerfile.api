@@ -3,6 +3,10 @@ FROM python:3.8-buster
 ENV HOST=0.0.0.0
 ENV PORT=8000
 
+ENV WAIT_VERSION 2.7.2
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
+RUN chmod +x /wait
+
 WORKDIR /code
 COPY ./requirements.txt /code/
 
@@ -11,4 +15,4 @@ RUN pip install --upgrade pip \
 
 COPY . /code/
 
-CMD uvicorn app.main:app --host ${HOST} --port ${PORT}
+CMD /wait && alembic upgrade head && uvicorn app.api:app --host ${HOST} --port ${PORT}
